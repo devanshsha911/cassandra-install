@@ -1,0 +1,30 @@
+
+---
+- name: Install Java
+  dnf:
+    name: java-11-openjdk
+    state: present
+
+- name: Add Cassandra repo
+  yum_repository:
+    name: cassandra
+    description: Apache Cassandra
+    baseurl: https://apache.jfrog.io/artifactory/cassandra-rpm/40x/
+    gpgcheck: no
+    enabled: yes
+
+- name: Install Cassandra
+  dnf:
+    name: cassandra
+    state: present
+
+
+- name: Enable and start Cassandra
+  systemd:
+    name: cassandra
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: yes
+
+

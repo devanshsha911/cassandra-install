@@ -1,0 +1,40 @@
+---
+- name: Install Java
+  apt:
+    name: openjdk-11-jdk
+    state: present
+    update_cache: yes
+
+- name: Install required packages
+  apt:
+    name:
+      - gnupg
+      - curl
+    state: present
+    update_cache: yes
+
+- name: Download Cassandra GPG key
+  get_url:
+    url: https://downloads.apache.org/cassandra/KEYS
+    dest: /tmp/cassandra.KEYS
+
+- name: Convert key
+  shell: |
+    gpg --dearmor < /tmp/cassandra.KEYS > /usr/share/keyrings/cassandra.gpg
+
+- name: Add Cassandra repository
+  copy:
+    dest: /etc/apt/sources.list.d/cassandra.list
+    content: |
+      deb [signed-by=/usr/share/keyrings/cassandra.gpg] https://debian.cassandra.apache.org 41x main
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install Cassandra
+  apt:
+    name: cassandra
+    state: present
+
+

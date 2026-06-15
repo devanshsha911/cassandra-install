@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+# tasks file for roles/cassandra
+---
+- include_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- include_tasks: centos.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Deploy config
+  template:
+    src: cassandra.yaml.j2
+    dest: /etc/cassandra/cassandra.yaml
+  become: true
+  notify: restart cassandra
+
+

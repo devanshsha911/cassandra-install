@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+# handlers file for roles/cassandra
+---
+- name: restart cassandra
+  service:
+    name: cassandra
+    state: restarted

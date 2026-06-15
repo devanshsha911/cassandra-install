@@ -1,0 +1,11 @@
+#SPDX-License-Identifier: MIT-0
+# defaults file for roles/cassandra
+---
+cassandra_version: "4.0"
+cluster_name: "MyCluster"
+
+listen_address: "{{ ansible_default_ipv4.address }}"
+rpc_address: "0.0.0.0"
+
+seed_nodes:
+  - "{{ ansible_default_ipv4.address }}"
